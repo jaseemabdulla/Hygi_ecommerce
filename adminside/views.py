@@ -10,12 +10,13 @@ from io import BytesIO
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from openpyxl import Workbook
+from django.contrib.auth.decorators import login_required
 
 
 
 # Create your views here.
 
-
+@login_required(login_url='user_login')
 def sales_report(request):
     
     orders = Order.objects.filter(status = 'DELIVERED').order_by('-updated_at')
@@ -109,7 +110,7 @@ def download_excel(request,orders):
 
 
 # stock report
-
+@login_required(login_url='user_login')
 def stock_report(request):
     
     if request.method == 'POST':

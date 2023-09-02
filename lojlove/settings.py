@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'offer',
     'adminside',
     'banner',
+    'wallet',
 ]
 
 MIDDLEWARE = [

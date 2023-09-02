@@ -5,6 +5,7 @@ from .models import UserProfile,UserOtp
 from django.contrib.auth import login,logout,authenticate,update_session_auth_hash,get_user_model
 from django.contrib import messages
 from cart.models import Order,OrderItem,UserAddress
+from wallet.models import Wallet
 from django.contrib.auth.decorators import login_required
 from product.models import Product,ProductVariant
 from django.db.models import Sum
@@ -329,7 +330,29 @@ def user_orders(request):
     return render(request,'user/account/profile/orders.html',{'orders':orders}) 
 
 
+# cancel order
+@login_required(login_url='user_login')
+def user_cancel_order(request,order_id):
+    user = request.user
+    order = Order.objects.get(id =order_id)
+    order.status = 'CANCELLED'
+    order.save()
+    wallet_amount = order.total_price
+    wallet, created = Wallet.objects.get_or_create(user=user, defaults={'amount': wallet_amount})
+    if created: 
+        pass
+    else:
+        wallet.amount += wallet_amount
+        wallet.save()
+        
+    messages.success(request,'order canceled succesfully') 
+    return redirect('user_orders')    
+
+
+
+
 # order details
+@login_required(login_url='user_login')
 def user_orderdetails(request,order_id):
     order = Order.objects.get(id = order_id)
     order_items = OrderItem.objects.filter(order = order)

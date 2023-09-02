@@ -11,6 +11,7 @@ urlpatterns = [
     path('user_address/',views.user_address,name='user_address'),
     path('user_details/',views.user_details,name='user_details'),
     path('user_orderdetails/<int:order_id>/',views.user_orderdetails,name='user_orderdetails'),
+    path('user_cancel_order/<int:order_id>/',views.user_cancel_order,name='user_cancel_order'),
     
     path('forgot_password/',views.forgot_password,name='forgot_password'),
     path('reset_password/<str:uidb64>/<str:token>/', views.reset_password, name='reset_password'),
@@ -19,7 +20,7 @@ urlpatterns = [
     path('password-reset-complete/', views.password_reset_complete, name='password_reset_complete'),
     path('password-reset-invalid/', views.password_reset_invalid, name='password_reset_invalid'),
 
-     path('download_invoice/<int:order_id>/', views.generate_invoice_pdf, name='download_invoice'),
+    path('download_invoice/<int:order_id>/', views.generate_invoice_pdf, name='download_invoice'),
    
     
     # admin 

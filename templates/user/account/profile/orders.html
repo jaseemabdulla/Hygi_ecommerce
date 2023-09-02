@@ -47,10 +47,14 @@
 														<a  class="nav-link" href="{% url 'user_address' %}" >Address</a>
 													</li>
 													<li class="nav-item">
+														<a  class="nav-link" href="{% url 'user_wallet' %}" >Wallet</a>
+													</li>
+													<li class="nav-item">
 														<a class="nav-link" href="">Logout</a>
 													</li>
 												</ul>
 											</nav>
+											{% include 'includes/messege.html' %}
 											<div class="my-account-content tab-content">
 												
 												<div>
@@ -74,6 +78,13 @@
 		                                                                <td>{{order.status}}</td>
 		                                                                <td>${{order.total_price}} for {{order.get_orderItem_count}} item</td>
 		                                                                <td><a href="{% url 'user_orderdetails' order.id%}" class="btn-small d-block">View</a></td>
+																		{% if  order.status == 'CANCELLED'%}
+																		<td>Cancelled</td>
+																		{% elif order.status == 'DELIVERED'%}
+																		<td>Delivered</td>
+																		{% else %}
+		                                                                <td><a href="{% url 'user_cancel_order' order.id%}" class="btn-small d-block">Cancel</a></td>
+																		{% endif %}
 		                                                            </tr>
 																	{% endfor %}
 																	
